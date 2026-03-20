@@ -18,6 +18,7 @@ import {
 import { ColorInput } from "@/components/ColorInput";
 import { RadiusSlider } from "@/components/RadiusSlider";
 import { NavItem } from "@/components/NavItem";
+import { AIGenerator } from "@/components/AIGenerator";
 import { Dashboard, UsersTable, SettingsForm } from "@/components/preview";
 import { useThemeStore } from "@/store/theme";
 import type { Theme } from "@/types/theme";
@@ -25,7 +26,7 @@ import type { Theme } from "@/types/theme";
 type Page = "dashboard" | "users" | "settings";
 
 function App() {
-  const { darkTheme, lightTheme, mode, setTheme, reset, toggleMode, undo, redo, canUndo, canRedo } = useThemeStore();
+  const { darkTheme, lightTheme, mode, setTheme, setBothThemes, reset, toggleMode, undo, redo, canUndo, canRedo } = useThemeStore();
   const [activePage, setActivePage] = useState<Page>("dashboard");
   const [copied, setCopied] = useState(false);
   const [showExport, setShowExport] = useState(false);
@@ -89,6 +90,10 @@ function App() {
 
   const handleRedo = () => {
     redo();
+  };
+
+  const handleAITheme = (dark: Partial<Theme>, light: Partial<Theme>) => {
+    setBothThemes(dark, light);
   };
 
   const generateCSSForTheme = (t: Theme, selector: string): string => {
@@ -293,6 +298,8 @@ function App() {
               Export Config
             </button>
           </div>
+
+          <AIGenerator onApply={handleAITheme} apiKey={import.meta.env.VITE_GROQ_API_KEY || ""} />
         </div>
       </aside>
 

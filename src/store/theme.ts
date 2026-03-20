@@ -44,6 +44,7 @@ interface ThemeStore {
   darkHistory: HistoryState;
   lightHistory: HistoryState;
   setTheme: (partial: Partial<Theme>) => void;
+  setBothThemes: (dark: Partial<Theme>, light: Partial<Theme>) => void;
   reset: () => void;
   toggleMode: () => void;
   undo: () => void;
@@ -82,6 +83,17 @@ export const useThemeStore = create<ThemeStore>()(
         state.lightTheme = deepClone(newTheme);
         state.lightHistory = { history: newHistory, historyIndex: newIndex };
       }
+    }),
+
+    setBothThemes: (darkPartial, lightPartial) => set((state) => {
+      const newDark = { ...state.darkTheme, ...darkPartial };
+      const newLight = { ...state.lightTheme, ...lightPartial };
+      
+      state.darkTheme = deepClone(newDark);
+      state.lightTheme = deepClone(newLight);
+      
+      state.darkHistory = { history: [deepClone(newDark)], historyIndex: 0 };
+      state.lightHistory = { history: [deepClone(newLight)], historyIndex: 0 };
     }),
 
     reset: () => set((state) => {
