@@ -10,7 +10,6 @@ import {
   Sun,
   Undo2,
   Redo2,
-  Globe,
   Check,
   Copy,
   X,
@@ -18,7 +17,7 @@ import {
 import { ColorInput } from "@/components/ColorInput";
 import { RadiusSlider } from "@/components/RadiusSlider";
 import { NavItem } from "@/components/NavItem";
-import { AIGenerator } from "@/components/AIGenerator";
+import { AIHeader } from "@/components/AIHeader";
 import { Dashboard, UsersTable, SettingsForm } from "@/components/preview";
 import { useThemeStore } from "@/store/theme";
 import type { Theme } from "@/types/theme";
@@ -298,8 +297,6 @@ function App() {
               Export Config
             </button>
           </div>
-
-          <AIGenerator onApply={handleAITheme} apiKey={import.meta.env.VITE_GROQ_API_KEY || ""} />
         </div>
       </aside>
 
@@ -313,11 +310,8 @@ function App() {
             backgroundColor: "var(--background)",
           }}
         >
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 text-sm opacity-50 hover:opacity-100 cursor-pointer">
-              <Globe size={16} />
-              <span className="font-medium">theme-builder.app</span>
-            </div>
+          <div className="flex items-center gap-4 flex-1 max-w-md">
+            <AIHeader apiKey={import.meta.env.VITE_GROQ_API_KEY || ""} onApply={handleAITheme} />
           </div>
           <div className="flex items-center gap-4">
             <div
